@@ -32,13 +32,13 @@ async function main() {
     process.exit(1);
   }
 
-  // Configure scraper
+  // Configure scraper with conservative defaults to avoid rate limiting
   const config: Partial<ScraperConfig> = {
-    subreddits: ['wallstreetbets', 'stocks', 'investing', 'cryptocurrency'],
-    minUpvotes: 100,
+    subreddits: ['wallstreetbets'], // Start with one subreddit
+    minUpvotes: 10,  // Lower threshold to get more results
     minComments: 0,
     timeframe: 'day',
-    limit: 50,
+    limit: 10,  // Conservative limit to avoid rate limiting
     includeNSFW: false,
   };
 

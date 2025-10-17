@@ -33,7 +33,8 @@ export class RedditMemeScraper {
     };
 
     // Configure request delay to avoid rate limiting
-    this.reddit.config({ requestDelay: 1000, warnings: false });
+    // Use 5-second delay to be safe with Reddit's API limits
+    this.reddit.config({ requestDelay: 5000, warnings: false });
   }
 
   /**

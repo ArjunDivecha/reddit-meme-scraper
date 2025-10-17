@@ -1,0 +1,29 @@
+{
+  "name": "reddit-meme-scraper",
+  "version": "1.0.0",
+  "description": "A Reddit meme scraper for r/wallstreetbets and other financial subreddits",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "build": "bun build src/index.ts --outdir=dist --target=node",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write 'src/**/*.ts'"
+  },
+  "keywords": ["reddit", "scraper", "memes", "wallstreetbets", "stocks"],
+  "author": "Droid",
+  "license": "MIT",
+  "dependencies": {
+    "snoowrap": "^1.23.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3"
+  }
+}

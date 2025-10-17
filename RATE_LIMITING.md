@@ -67,17 +67,26 @@ requestDelay: 3000  // Down from 5000ms
 
 ---
 
-## ⏱️ Reddit's Rate Limits
+## ⏱️ Reddit's Official Rate Limits (Oct 2025)
 
-### Authenticated Requests (what we use)
-- **60 requests per minute** (official limit)
-- **In practice:** ~30-40 requests/min is safer
-- **Burst protection:** Slow down after 10+ requests
+### Authenticated Requests (OAuth - what we use)
+- **100 requests per minute** per OAuth client ID
+- **Averaged over 10-minute window** (allows bursting, but not sustained high rates)
+- **Unauthenticated**: Only 10 requests/min (most endpoints blocked)
+- **Response headers** provide live stats:
+  - `X-Ratelimit-Used`: Requests used in current window
+  - `X-Ratelimit-Remaining`: Requests left
+  - `X-Ratelimit-Reset`: When limit resets
+
+### Commercial/High-Volume Usage
+- **Paid plans**: $0.24 per 1,000 API calls
+- **Higher limits** available with commercial agreements
+- **Required** for sustained high-volume usage
 
 ### What Counts as a Request?
 - Each subreddit fetch = 1 request
 - Each post fetch = 0 requests (included in subreddit fetch)
-- Authentication = 1 request (happens once)
+- Authentication = 1 request (happens once at startup)
 
 ### Example Calculation
 ```
@@ -85,14 +94,20 @@ Subreddits: 4
 Posts per subreddit: 50
 Delay: 1 second
 
-Total requests: 4
+Total requests: 4 (one per subreddit)
 Time: ~4 seconds
+Theoretical limit: Safe (well under 100/min)
 ```
-**Seems safe, but Reddit also monitors:**
-- Request patterns (bursts trigger blocks)
+
+**However, Reddit also monitors:**
+- Request patterns (rapid bursts trigger protection)
 - IP address reputation
 - Account age/karma
-- Time of day
+- Behavior patterns (scraping vs normal use)
+- Time of day and overall platform load
+
+**Why conservative settings work better:**
+While 100 req/min is the official limit, Reddit's anti-abuse systems may trigger before you hit it. Conservative settings avoid these secondary protections.
 
 ---
 
